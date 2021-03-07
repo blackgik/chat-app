@@ -52,9 +52,10 @@ shareLocation.addEventListener('click', (e)=> {
     }
     
     geo.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude
-        const longitude = position.coords.longitude
-        socket.emit('sharedLocation', [latitude, longitude])
+        socket.emit('sharedLocation', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
     
     })
 })
