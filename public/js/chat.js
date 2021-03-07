@@ -11,8 +11,8 @@ socket.on('message', (message)=> {
 
 // listening to all shared location
 
-socket.on('location', (...location)=> {
-    console.log(`you can find me here: ${location}`)
+socket.on('location', (location)=> {
+    console.log(`you can find me here: https://www.google.com/maps?q=${location[0]},${location[1]}`)
 })
 
 /**
