@@ -1,8 +1,10 @@
+const Filter = require('bad-words')
 const express = require('express')
 const path = require('path')
 const socketio = require('socket.io')
 const http = require('http')
 const { disconnect } = require('process')
+const { callbackify } = require('util')
 
 const app = express()
 const server = http.createServer(app)
@@ -19,8 +21,14 @@ io.on('connection', (socket)=> {
     socket.broadcast.emit('message','a new user just joined' )
     
     // listening to messages to send to other clients
-    socket.on('message', (message)=> {
+    socket.on('message', (message, callback)=> {
+        const filter = new Filter()
+        if(filter.isProfane(message)) {
+            return callback('sorry foul language is not allowed on this application')
+        }
+
         io.emit('message', message)
+        callback()
     })
 
     // listening to shared location and sd=ending to other clients

@@ -2,6 +2,7 @@ const socket = io()
 const formId = document.forms['chat-input']
 const inputField = formId.querySelector('input[type=text')
 const shareLocation = document.querySelector('#share-location')
+const FormButton = formId.querySelector('#send-message')
 
 // listening to all messages
 socket.on('message', (message)=> {
@@ -23,8 +24,23 @@ socket.on('location', (...location)=> {
 formId.addEventListener('submit', (e)=> {
     e.preventDefault()
 
-    socket.emit('message',inputField.value)
-    inputField.value = ''
+    // didable form button after submittion
+    FormButton.disabled = true
+
+    socket.emit('message',inputField.value, (error)=> {
+        FormButton.disabled = false
+        inputField.value = ''
+        inputField.focus()
+
+        if(error) {
+          return  console.log(error)
+        }
+
+        console.log('delivered!')
+
+
+    })
+    
 })
 
 // sharing location to the server for other users to use
