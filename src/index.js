@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const socketio = require('socket.io')
 const http = require('http')
+const { disconnect } = require('process')
 
 const app = express()
 const server = http.createServer(app)
@@ -22,6 +23,12 @@ io.on('connection', (socket)=> {
         io.emit('message', message)
     })
 
+    // listening to shared location and sd=ending to other clients
+    socket.on('sharedLocation', (position)=> {
+        io.emit('location', position)
+    })
+
+    // disconnecting a user when a user logs out
     socket.on('disconnect', ()=> {
         io.emit('message','user left!')
     })

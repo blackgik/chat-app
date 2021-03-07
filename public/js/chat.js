@@ -8,6 +8,11 @@ socket.on('message', (message)=> {
     console.log(message)
 })
 
+// listening to all shared location
+
+socket.on('location', (...location)=> {
+    console.log(`you can find me here: ${location}`)
+})
 
 /**
  * 
@@ -27,10 +32,13 @@ shareLocation.addEventListener('click', (e)=> {
     const geo = navigator.geolocation
 
     if(!geo) {
-        console.log('there is an unknown persons location')
+        console.log('it is an unknown persons location')
     }
-
+    
     geo.getCurrentPosition((position) => {
-        
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        socket.emit('sharedLocation', [latitude, longitude])
+    
     })
 })
