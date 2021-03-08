@@ -12,23 +12,21 @@
 
     </div>
     <br>
-        <form id="chat-input">
-            <input type="text" placeholder="Type a message">
-            <button id="send-message">send</button>
-        </form><br>
-        <button id="share-location">share location</button>
+    <form id="chat-input">
+        <input type="text" placeholder="Type a message">
+        <button id="send-message">send</button>
+    </form><br>
+    <button id="share-location">share location</button>
     
     <script id="message-scripter" type="text/html">
         <div>
             <p> {{createdAt}} - {{message}} </p>
         </div>
-        
     </script>
 
     <script id="location-scripter" type="text/html">
         <div>
             <p>{{createdAt}} - <a href="{{locate}}" target="blank"> my location </a> </p>
-             
         </div>
     </script>
     
