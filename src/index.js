@@ -32,8 +32,13 @@ io.on('connection', (socket)=> {
     })
 
     // listening to shared location and sd=ending to other clients
-    socket.on('sharedLocation', ({latitude, longitude})=> {
+    socket.on('sharedLocation', ({latitude, longitude}, callback)=> {
+        if(!latitude|| !longitude) {
+            return callback('sorry invalid location')
+        }
+
         io.emit('location', [latitude,longitude])
+        callback()
     })
 
     // disconnecting a user when a user logs out
