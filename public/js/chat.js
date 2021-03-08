@@ -11,9 +11,8 @@ const $locationTemplate = document.querySelector('#location-scripter').innerHTML
 
 // listening to all messages
 socket.on('message', (message)=> {
-    console.log(message)
     const html = Mustache.render($messsageTemplates, {
-        message
+        message: message.text
     })
     messageContainer.insertAdjacentHTML('beforeend', html)
 
