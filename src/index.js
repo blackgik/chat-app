@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const socketio = require('socket.io')
 const http = require('http')
-const { generateMessage } = require('./utils/messages')
+const { generateMessage, generateLocationMessage } = require('./utils/messages')
 
 const app = express()
 const server = http.createServer(app)
@@ -36,7 +36,7 @@ io.on('connection', (socket)=> {
             return callback('sorry invalid location')
         }
 
-        io.emit('location', [latitude,longitude])
+        io.emit('location', generateLocationMessage([latitude,longitude]))
         callback()
     })
 

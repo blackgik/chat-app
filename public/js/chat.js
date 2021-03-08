@@ -12,7 +12,8 @@ const $locationTemplate = document.querySelector('#location-scripter').innerHTML
 // listening to all messages
 socket.on('message', (message)=> {
     const html = Mustache.render($messsageTemplates, {
-        message: message.text
+        message: message.text,
+        createdAt: moment(message.createdAt).format('h:mm a')
     })
     messageContainer.insertAdjacentHTML('beforeend', html)
 
@@ -21,11 +22,13 @@ socket.on('message', (message)=> {
 // listening to all shared location
 
 socket.on('location', (location)=> {
-    console.log(`you can find me here: https://www.google.com/maps?q=${location[0]},${location[1]}`)
-    const url = `https://www.google.com/maps?q=${location[0]},${location[1]}`
+    const locate =`https://www.google.com/maps?q=${location.url[0]},${location.url[1]}`
+    console.log(locate)
     const html = Mustache.render($locationTemplate, {
-        url
+        locate,
+        createdAt: moment(location.createdAt).format('h:mm a')
     })
+
     messageContainer.insertAdjacentHTML('beforeend', html)
 })
 
