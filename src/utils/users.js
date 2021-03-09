@@ -45,36 +45,22 @@ const removeUser = (id)=> {
 }
 
 const getUser = (id)=> {
-    return users.find((user)=> {
-        if(user.id === id) {
-            return user
-        }
-    })
+    return users.find((user)=> user.id === id)
 }
 
-addUser({
-    id:22,
-    username: 'john',
-    room: 'jews'
-})
+const getUserInASpecificRoom = (room)=> {
+    const usersInRoom = users.filter((user) => {
+        if(user.room == room) {
+            return  user
+        }
+    })
 
-addUser({
-    id:13,
-    username: 'dave',
-    room: 'jews'
-})
+    return usersInRoom
+}
 
-addUser({
-    id:65,
-    username: 'john',
-    room: 'daniel city'
-})
-
-
-console.log(users)
-const usr = getUser(22)
-console.log(usr)
-// const removedUser = removeUser(22)
-// console.log(removedUser)
-// console.log(users)
-
+module.exports = {
+    addUser,
+    removeUser,
+    getUser,
+    getUserInASpecificRoom
+}
