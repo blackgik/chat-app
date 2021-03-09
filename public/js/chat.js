@@ -9,6 +9,9 @@ const messageContainer = document.querySelector('#message-container')
 const $messsageTemplates = document.querySelector('#message-scripter').innerHTML
 const $locationTemplate = document.querySelector('#location-scripter').innerHTML
 
+// options
+const {username, room} = Qs.parse(location.search, {ignoreQueryPrefix: true })
+
 // listening to all messages
 socket.on('message', (message)=> {
     const html = Mustache.render($messsageTemplates, {
@@ -18,6 +21,9 @@ socket.on('message', (message)=> {
     messageContainer.insertAdjacentHTML('beforeend', html)
 
 })
+
+// emiting the username and the room
+socket.emit('join', { username, room})
 
 // listening to all shared location
 

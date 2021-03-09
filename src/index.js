@@ -17,8 +17,11 @@ app.use(express.static(PublicDirectoryPath))
 io.on('connection', (socket)=> {
     console.log('web socket is listening')
     // telling all users that a someone just joined
-    socket.broadcast.emit('message', generateMessage('a new user just joined') )
     
+    socket.on('join', ({username, room})=> {
+        socket.join(room)
+        socket.broadcast.to(room).emit('message', generateMessage(`${ username } just joined`) )
+    })
     // listening to messages to send to other clients
     socket.on('message', (message, callback)=> {
         const filter = new Filter()
@@ -26,7 +29,7 @@ io.on('connection', (socket)=> {
             return callback('sorry foul language is not allowed on this application')
         }
 
-        io.emit('message', generateMessage(message))
+        io.to('Adams Room').emit('message', generateMessage(message))
         callback()
     })
 

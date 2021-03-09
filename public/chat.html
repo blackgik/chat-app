@@ -20,7 +20,11 @@
     
     <script id="message-scripter" type="text/html">
         <div>
-            <p> {{createdAt}} - {{message}} </p>
+            <p>
+                <span class="message-user">some user</span>
+                <span class="message-time"> {{createdAt}} </span>
+            </p>
+            <p>{{message}} </p>
         </div>
     </script>
 
