@@ -24,7 +24,7 @@ const addUser = ({id, username, room})=> {
     if (existingUser) {
         return {
             error: 'user already exist'
-        }
+        } 
     }
 
     // store users
@@ -35,14 +35,46 @@ const addUser = ({id, username, room})=> {
 
 }
 
-console.log(addUser({
-    id:32,
-    username: 'brian',
-    room: 'jews'
-}))
+// removing a user from the chat room
+const removeUser = (id)=> {
+    const index = users.findIndex((user)=> user.id == id)
 
-console.log(addUser({
-    id:32,
-    username: 'brian',
+    if(index !== -1) {
+       return users.splice(index, 1)[0]
+    }
+}
+
+const getUser = (id)=> {
+    return users.find((user)=> {
+        if(user.id === id) {
+            return user
+        }
+    })
+}
+
+addUser({
+    id:22,
+    username: 'john',
     room: 'jews'
-}))
+})
+
+addUser({
+    id:13,
+    username: 'dave',
+    room: 'jews'
+})
+
+addUser({
+    id:65,
+    username: 'john',
+    room: 'daniel city'
+})
+
+
+console.log(users)
+const usr = getUser(22)
+console.log(usr)
+// const removedUser = removeUser(22)
+// console.log(removedUser)
+// console.log(users)
+
