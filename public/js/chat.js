@@ -4,10 +4,12 @@ const inputField = formId.querySelector('input[type=text')
 const shareLocation = document.querySelector('#share-location')
 const FormButton = formId.querySelector('#send-message')
 const messageContainer = document.querySelector('#message-container')
+const sidebar = document.querySelector('#sidebar')
 
 // templates
 const $messsageTemplates = document.querySelector('#message-scripter').innerHTML
 const $locationTemplate = document.querySelector('#location-scripter').innerHTML
+const $sideBarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 // options
 const {username, room} = Qs.parse(location.search, {ignoreQueryPrefix: true })
@@ -15,6 +17,7 @@ const {username, room} = Qs.parse(location.search, {ignoreQueryPrefix: true })
 // listening to all messages
 socket.on('message', (message)=> {
     const html = Mustache.render($messsageTemplates, {
+        username: message.username,
         message: message.text,
         createdAt: moment(message.createdAt).format('h:mm a')
     })
@@ -22,8 +25,23 @@ socket.on('message', (message)=> {
 
 })
 
+// list of users in the chat room
+socket.on('roomData', ({room, users})=> {
+    const html = Mustache.render($sideBarTemplate, {
+        room,
+        users
+    })
+
+    sidebar.innerHTML = html
+})
+
 // emiting the username and the room
-socket.emit('join', { username, room})
+socket.emit('join', { username, room}, (error)=> {
+    if (error){
+        alert(error)
+        return location.href = '/'
+    }
+})
 
 // listening to all shared location
 
@@ -31,6 +49,7 @@ socket.on('location', (location)=> {
     const locate =`https://www.google.com/maps?q=${location.url[0]},${location.url[1]}`
     console.log(locate)
     const html = Mustache.render($locationTemplate, {
+        username:location.username,
         locate,
         createdAt: moment(location.createdAt).format('h:mm a')
     })
